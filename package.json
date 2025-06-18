@@ -1,0 +1,29 @@
+{
+  "name": "hyper-io-friendship-edition",
+  "version": "1.0.0",
+  "description": "A multiplayer .io game with strategic cell splitting and social mechanics",
+  "main": "server/src/server.js",
+  "scripts": {
+    "start": "cd server && npm install && node src/server.js",
+    "dev": "cd server && npm run dev",
+    "install-server": "cd server && npm install"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "keywords": [
+    "multiplayer",
+    "game",
+    "io-game",
+    "realtime",
+    "websocket",
+    "nodejs"
+  ],
+  "author": "yashbytes",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/hyper-io-friendship-edition.git"
+  }
+}

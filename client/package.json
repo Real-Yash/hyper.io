@@ -1,0 +1,22 @@
+{
+  "name": "Hyper.io-Friendship-Edition",
+  "version": "1.0.0",
+  "description": "A multiplayer .io game  with enhanced social mechanics.",
+  "main": "src/js/main.js",
+  "scripts": {
+    "start": "live-server index.html",
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development"
+  },
+  "dependencies": {
+    "phaser": "^3.55.2",
+    "socket.io-client": "^4.0.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1"
+  },
+  "author": "Yashbytes",
+  "license": "MIT"
+}

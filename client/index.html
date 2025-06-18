@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyper.io (Friendship Edition)</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <style>
+    /* Mobile responsive styles */
+    @media (max-width: 600px) {
+        #game-ui, .ui-panel {
+            font-size: 1.1em;
+            padding: 8px 4px;
+        }
+        #leaderboard, #team-scores, #player-stats {
+            left: 0;
+            right: 0;
+            width: 95vw;
+            min-width: unset;
+            max-width: unset;
+        }
+        .notification {
+            font-size: 1.1em;
+            padding: 10px 10px;
+        }
+    }
+
+    /* Mobile Coming Soon Styles */
+    .mobile-message {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+        padding: 20px;
+    }
+
+    .mobile-message-content {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-50px) scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .mobile-message h2 {
+        color: #764ba2;
+        margin-bottom: 15px;
+        font-size: 1.5em;
+    }
+
+    .mobile-message p {
+        color: #333;
+        margin-bottom: 15px;
+        line-height: 1.5;
+    }
+
+    .mobile-features {
+        background: rgba(102, 126, 234, 0.1);
+        border-radius: 10px;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    .mobile-features ul {
+        text-align: left;
+        margin: 10px 0;
+        padding-left: 20px;
+    }
+
+    .mobile-features li {
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .mobile-continue-btn {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 20px 0 10px 0;
+        transition: transform 0.2s ease;
+    }
+
+    .mobile-continue-btn:hover {
+        transform: scale(1.05);
+    }
+
+    .mobile-disclaimer {
+        font-size: 0.8em;
+        color: #666;
+        font-style: italic;
+    }
+    </style>
+</head>
+<body>
+    <!-- Game Menu -->
+    <div id="game-menu" class="menu-screen">
+        <div class="menu-content">
+            <h1>Hyper.io</h1>
+            <h2>Friendship Edition</h2>
+            
+            <!-- Mobile Coming Soon Message -->
+            <div id="mobile-message" class="mobile-message" style="display: none;">
+                <div class="mobile-message-content">
+                    <h2>🚧 Coming Soon on Mobile! 🚧</h2>
+                    <p>We're working hard to optimize the mobile experience.</p>
+                    <p><strong>For the best gameplay, please try on PC/Desktop!</strong></p>
+                    <div class="mobile-features">
+                        <p>✨ Coming mobile features:</p>
+                        <ul>
+                            <li>Touch-optimized controls</li>
+                            <li>Strategic split gestures</li>
+                            <li>Enhanced mobile UI</li>
+                            <li>Performance optimizations</li>
+                        </ul>
+                    </div>
+                    <button id="mobile-continue-btn" class="mobile-continue-btn">Continue Anyway</button>
+                    <p class="mobile-disclaimer">Note: Mobile experience may be limited</p>
+                </div>
+            </div>
+            
+            <!-- Desktop Game Content -->
+            <div id="desktop-content" class="desktop-content">
+                <input type="text" id="player-name" placeholder="Enter your name" maxlength="20">
+                
+                <!-- Game Mode Selection -->
+                <div class="game-mode-selection">
+                    <label>
+                        <input type="checkbox" id="team-mode-checkbox"> Team Mode
+                    </label>
+                    <p class="mode-description">Join a colored team and work together!</p>
+                </div>
+                
+                <button id="play-button">Play</button>
+                <div class="game-info">
+                    <p>🎯 Eat smaller players and food to grow</p>
+                    <p>👥 Send friend requests to avoid eating each other</p>
+                    <p>🏆 In team mode, help your teammates dominate!</p>
+                    <p>⚡ Press SPACE to split, SHIFT+SPACE for strategic split</p>
+                    <p>🚀 Strategic splits have enhanced momentum for captures!</p>
+                    <p>💥 Press W to eject mass</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Container -->
+    <div id="game-container" style="display: none;">
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- Game UI -->
+        <div id="game-ui">
+            <!-- Leaderboard -->
+            <div id="leaderboard" class="ui-panel mobile-top">
+                <h3>Leaderboard</h3>
+                <ol id="leaderboard-list"></ol>
+            </div>
+
+            <!-- Team Scores (only shown in team mode) -->
+            <div id="team-scores" class="ui-panel mobile-hide" style="display: none;">
+                <h3>Team Scores</h3>
+                <div id="team-scores-list"></div>
+            </div>
+
+            <!-- Player Stats -->
+            <div id="player-stats" class="ui-panel">
+                <div id="player-name-display"></div>
+                <div id="player-mass-display">Mass: 0</div>
+                <div id="player-position-display">Position: (0, 0)</div>
+            </div>
+
+            <!-- Floating Mass Display (Mobile) -->
+            <div id="player-mass-mobile" class="mobile-only" style="display:none;"></div>
+
+            <!-- Reload Button (Mobile) -->
+            <button id="reload-button" onclick="location.reload()" style="
+                position: fixed;
+                top: 10px;
+                right: 50%;
+                transform: translateX(50%);
+                z-index: 2001;
+                padding: 8px 16px;
+                background: rgba(255, 255, 255, 0.9);
+                border: 1px solid #ccc;
+                border-radius: 20px;
+                font-size: 12px;
+                cursor: pointer;
+            ">Reload</button>
+
+            <!-- Mobile Controls -->
+            <div id="mobile-controls" style="display: none;">
+                <button id="split-button" style="
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    z-index: 2001;
+                    width: 60px;
+                    height: 60px;
+                    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    color: white;
+                    font-size: 16px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    touch-action: manipulation;
+                ">SPLIT</button>
+                
+                <button id="eject-button" style="
+                    position: fixed;
+                    bottom: 20px;
+                    right: 90px;
+                    z-index: 2001;
+                    width: 50px;
+                    height: 50px;
+                    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    color: white;
+                    font-size: 12px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    touch-action: manipulation;
+                ">W</button>
+                
+                <button id="strategic-split-button" style="
+                    position: fixed;
+                    bottom: 90px;
+                    right: 20px;
+                    z-index: 2001;
+                    width: 55px;
+                    height: 55px;
+                    background: linear-gradient(45deg, #ff4444, #cc2222);
+                    border: 2px solid white;
+                    border-radius: 50%;
+                    color: white;
+                    font-size: 10px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                    touch-action: manipulation;
+                ">STRAT<br>SPLIT</button>
+            </div>
+
+            <!-- Achievements Panel -->
+            <div id="achievements-panel" class="ui-panel" style="display: none;">
+                <h3>Achievements</h3>
+                <div id="achievements-list"></div>
+                <div id="active-effects">
+                    <h4>Active Effects</h4>
+                    <div id="effects-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="notifications"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script type="module" src="src/js/main.js"></script>
+</body>
+</html>

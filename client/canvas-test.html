@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Test</title>
+    <style>
+        #test-canvas {
+            border: 2px solid red;
+            background: #1a1a1a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Canvas Test</h1>
+    <canvas id="test-canvas" width="800" height="600"></canvas>
+    
+    <script>
+        console.log('Canvas test starting...');
+        const canvas = document.getElementById('test-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        console.log('Canvas:', canvas);
+        console.log('Context:', ctx);
+        
+        // Draw a test circle
+        ctx.fillStyle = '#ff0000';
+        ctx.beginPath();
+        ctx.arc(400, 300, 50, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Draw text
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '20px Arial';
+        ctx.fillText('Canvas Working!', 300, 250);
+        
+        console.log('Test drawing complete');
+    </script>
+</body>
+</html>
