@@ -4,7 +4,8 @@
   "description": "A multiplayer .io game with strategic cell splitting and social mechanics",
   "main": "server/src/server.js",
   "scripts": {
-    "start": "cd server && npm install && node src/server.js",
+    "start": "cd server && node src/server.js",
+    "build": "cd server && npm install",
     "dev": "cd server && npm run dev",
     "install-server": "cd server && npm install"
   },
@@ -24,6 +25,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/hyper-io-friendship-edition.git"
+    "url": "https://github.com/Real-Yash/hyper.io.git"
   }
 }

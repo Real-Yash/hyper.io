@@ -3,7 +3,7 @@ services:
   - type: web
     name: hyper-io-game
     runtime: node
-    startCommand: node src/server.js
+    startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
@@ -12,5 +12,4 @@ services:
           type: web
           name: hyper-io-game
           property: port
-    buildCommand: npm install
-    rootDir: server
+    buildCommand: npm run build
