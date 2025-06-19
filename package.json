@@ -5,7 +5,9 @@
   "main": "server/src/server.js",
   "scripts": {
     "start": "node server/src/server.js",
-    "dev": "nodemon server/src/server.js"
+    "dev": "nodemon server/src/server.js",
+    "build": "echo 'No build step required for Render'",
+    "render-postbuild": "echo 'Render deployment completed'"
   },
   "dependencies": {
     "express": "^4.17.1",
