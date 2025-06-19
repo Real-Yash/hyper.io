@@ -440,4 +440,10 @@ server.listen(PORT, HOST, () => {
     console.log(`🚀 Hyper.io server running on ${HOST}:${PORT}`);
     console.log(`🎮 Game available at: http://${HOST}:${PORT}`);
     console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
+}).on('error', (err) => {
+    console.error('❌ Server failed to start:', err);
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+    }
+    process.exit(1);
 });
