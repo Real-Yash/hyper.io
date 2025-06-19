@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "defaultProvider": "github",
+  "providers": {
+    "github": {
+      "properties": {
+        "repository": "https://github.com/Real-Yash/hyper.io",
+        "branch": "main",
+        "buildCommand": "npm install",
+        "startCommand": "npm start"
+      }
+    }
+  },
+  "runtimeStack": "node|18-lts",
+  "webSocketsEnabled": true,
+  "alwaysOn": true,
+  "appSettings": [
+    {
+      "name": "NODE_ENV",
+      "value": "production"
+    },
+    {
+      "name": "WEBSITE_NODE_DEFAULT_VERSION",
+      "value": "18.16.0"
+    },
+    {
+      "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
+      "value": "true"
+    }
+  ]
+}
